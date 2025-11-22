@@ -259,6 +259,8 @@ def register_handlers(dp: Dispatcher, is_main: bool):
             f"• Numara yaz (502022001)\n"
             f"• İsim Soyisim yaz (Əhməd Məmmədov)\n"
             f"• Rastgele: /random\n"
+            
+            f"• Yardım İçin /help Komutunu Kullanın.\n"
         )
 
         await msg.answer(text, reply_markup=keyboard)
