@@ -299,7 +299,7 @@ def register_handlers(dp: Dispatcher, is_main: bool):
             f"• Her referans = +1 sorgu hakkı\n"
             f"• Rastgele sorgu: /random\n"
             f"• Numara → İsim: sadece numara yaz\n"
-            f"• İsim → Numara: sadece isim yaz"
+            f"• İsim → Numara: sadece isim yaz\n"
             f"• /stats Komutu Sayesinde Statiklerinizi Göre Bilirsiniz"
         )
 
