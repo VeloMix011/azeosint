@@ -159,6 +159,36 @@ def lookup_name(name_query: str):
 # ==================================================
 def register_handlers(dp: Dispatcher, is_main: bool):
 
+
+           # ================== /stats ==================
+    @dp.message(Command("stats"))
+    async def stats_cmd(msg: types.Message):
+        uid = msg.from_user.id
+
+        if uid not in users:
+            users[uid] = {"count": 0, "reset": reset_time(), "refs": 0}
+
+        data = users[uid]
+
+        bugun_say = data["count"]
+        limit = BASE_LIMIT + data["refs"]
+        qalan = limit - bugun_say
+
+        # resetə qalan vaxt
+        now = datetime.now()
+        qalan_vaxt = data["reset"] - now
+        saat = qalan_vaxt.seconds // 3600
+        deqiqe = (qalan_vaxt.seconds % 3600) // 60
+
+        await msg.answer(
+            f"📊 <b>İstatistikleriniz</b>\n\n"
+            f"📅 Kayıt Tarihi: <b>{datetime.now().date()}</b>\n"
+            f"🔍 Bugünkü Sorgular: <b>{bugun_say}/{limit}</b>\n"
+            f"📈 Kalan Sorgu Hakkı: <b>{qalan}</b>\n"
+            f"⏳ Limit Yenilenmesine: <b>{saat} saat {deqiqe} dakika</b>\n"
+            f"🕐 Son Sorgu: <b>{datetime.now().strftime('%Y-%m-%d %H:%M')}</b>"
+        )
+    
         # ================== /start ==================
     @dp.message(Command("start"))
     async def start_cmd(msg: types.Message):
@@ -407,35 +437,6 @@ def register_handlers(dp: Dispatcher, is_main: bool):
             )
 
         await msg.answer("❌ Hiçbir sonuç bulunamadı.")
-
-    # ================== /stats ==================
-    @dp.message(Command("stats"))
-    async def stats_cmd(msg: types.Message):
-        uid = msg.from_user.id
-
-        if uid not in users:
-            users[uid] = {"count": 0, "reset": reset_time(), "refs": 0}
-
-        data = users[uid]
-
-        bugun_say = data["count"]
-        limit = BASE_LIMIT + data["refs"]
-        qalan = limit - bugun_say
-
-        # Resetə qalan vaxt
-        now = datetime.now()
-        qalan_vaxt = data["reset"] - now
-        saat = qalan_vaxt.seconds // 3600
-        deqiqe = (qalan_vaxt.seconds % 3600) // 60
-
-        await msg.answer(
-            f"📊 <b>Statistikalarınız</b>\n\n"
-            f"📅 Qeydiyyat tarixi: <b>{datetime.now().date()}</b>\n"
-            f"🔍 Bugünkü sorğular: <b>{bugun_say}/{limit}</b>\n"
-            f"📈 Qalan sorğular: <b>{qalan}</b>\n"
-            f"⏳ Limit yenilənməsinə: <b>{saat} saat {deqiqe} dəqiqə</b>\n"
-            f"🕐 Son sorğu: <b>{datetime.now().strftime('%Y-%m-%d %H:%M')}</b>"
-        )
 
 # ==================================================
 #   KLON BOT BAŞLATICI
